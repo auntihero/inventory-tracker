@@ -73,10 +73,19 @@ def load_data(conn):
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT * FROM inventory")
+        cursor.execute("SELECT event_id, activity, start_time, event_duration FROM inventory")
         data = cursor.fetchall()
     except:
         return None
+
+    if not data:
+        # Return empty DataFrame with correct columns
+        return pd.DataFrame(columns=[
+            "event_id",
+            "activity",
+            "start_time",
+            "event_duration",
+        ])
 
     df = pd.DataFrame(
         data,
