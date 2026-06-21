@@ -35,6 +35,9 @@ def initialize_data(conn):
     
     cursor = conn.cursor()
     
+    # Drop the table if it exists (to handle schema changes)
+    cursor.execute("DROP TABLE IF EXISTS inventory")
+    
     cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS inventory (
