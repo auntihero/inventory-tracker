@@ -69,24 +69,20 @@ def initialize_data(conn):
 
 
 def load_data(conn):
-    """Loads the inventory data from the database."""
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute("SELECT event_id, activity, start_time, event_duration FROM inventory")
-        data = cursor.fetchall()
-    except:
-        return None
-
-    if not data:
-        # Return empty DataFrame with correct columns
-        return pd.DataFrame(columns=[
-            "event_id",
-            "activity",
-            "start_time",
-            "event_duration",
-        ])
-
+    """Loads the cat fitbit data as a static DataFrame."""
+    data = [
+        (1, 'Sleeping', '2026-01-15 22:00', 480),
+        (2, 'Eating', '2026-01-16 08:00', 15),
+        (3, 'Purring', '2026-01-16 09:00', 45),
+        (4, 'Drinking', '2026-01-16 12:00', 5),
+        (5, 'Sleeping', '2026-01-16 13:00', 240),
+        (6, 'Playing', '2026-01-16 17:00', 30),
+        (7, 'Eating', '2026-01-16 18:00', 10),
+        (8, 'Purring', '2026-01-16 19:00', 60),
+        (9, 'Drinking', '2026-01-16 20:00', 3),
+        (10, 'Sleeping', '2026-01-16 21:00', 540),
+    ]
+    
     df = pd.DataFrame(
         data,
         columns=[
