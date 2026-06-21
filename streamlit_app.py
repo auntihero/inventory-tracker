@@ -32,27 +32,27 @@ def connect_db():
 
 def initialize_data(conn):
     """Initializes the inventory table with some data."""
+    
     cursor = conn.cursor()
-
+    
     cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS inventory (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            item_name TEXT,
-            price REAL,
-            units_sold INTEGER,
-            units_left INTEGER,
-            cost_price REAL,
-            reorder_point INTEGER,
-            description TEXT
-        )
-        """
+                    """
+                    CREATE TABLE IF NOT EXISTS inventory (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    start_time TEXT,
+                    event_duration INTEGER,
+                    activity TEXT,
+                    units_left INTEGER,
+                    cost_price REAL,
+                    reorder_point INTEGER,
+                    description TEXT)
+                    """
     )
 
     cursor.execute(
         """
         INSERT INTO inventory
-            (item_name, price, units_sold, units_left, cost_price, reorder_point, description)
+            (start_time, event_duration, activity, units_left, cost_price, reorder_point, description)
         VALUES
             -- Beverages
             ('Bottled Water (500ml)', 1.50, 115, 15, 0.80, 16, 'Hydrating bottled water'),
@@ -103,10 +103,10 @@ def load_data(conn):
     df = pd.DataFrame(
         data,
         columns=[
-            "id",
-            "item_name",
-            "price",
-            "units_sold",
+            "event_id",
+            "start_time",
+            "event_duration",
+            "activity",
             "units_left",
             "cost_price",
             "reorder_point",
@@ -134,9 +134,9 @@ def update_data(conn, df, changes):
             """
             UPDATE inventory
             SET
-                item_name = :item_name,
-                price = :price,
-                units_sold = :units_sold,
+                start_time = :start_time,
+                event_duration = :event_duration,
+                activity = :activity,
                 units_left = :units_left,
                 cost_price = :cost_price,
                 reorder_point = :reorder_point,
@@ -150,17 +150,17 @@ def update_data(conn, df, changes):
         cursor.executemany(
             """
             INSERT INTO inventory
-                (id, item_name, price, units_sold, units_left, cost_price, reorder_point, description)
+                (event_id, start_time, event_duration, activity, units_left, cost_price, reorder_point, description)
             VALUES
-                (:id, :item_name, :price, :units_sold, :units_left, :cost_price, :reorder_point, :description)
+                (:event_id, :start_time, :event_duration, :activity, :units_left, :cost_price, :reorder_point, :description)
             """,
             (defaultdict(lambda: None, row) for row in changes["added_rows"]),
         )
 
     if changes["deleted_rows"]:
         cursor.executemany(
-            "DELETE FROM inventory WHERE id = :id",
-            ({"id": int(df.loc[i, "id"])} for i in changes["deleted_rows"]),
+            "DELETE FROM inventory WHERE event_id = :event_id",
+            ({"event_id": int(df.loc[i, "event_id"])} for i in changes["deleted_rows"]),
         )
 
     conn.commit()
@@ -198,11 +198,11 @@ df = load_data(conn)
 # Display data with editable table
 edited_df = st.data_editor(
     df,
-    disabled=["id"],  # Don't allow editing the 'id' column.
+    disabled=["event_id"],  # Don't allow editing the 'id' column.
     num_rows="dynamic",  # Allow appending/deleting rows.
     column_config={
         # Show dollar sign before price columns.
-        "price": st.column_config.NumberColumn(format="$%.2f"),
+        "event_duration": st.column_config.NumberColumn(format="$%.2f"),
         "cost_price": st.column_config.NumberColumn(format="$%.2f"),
     },
     key="inventory_table",
@@ -230,7 +230,7 @@ st.button(
 
 st.subheader("Units left", divider="red")
 
-need_to_reorder = df[df["units_left"] < df["reorder_point"]].loc[:, "item_name"]
+need_to_reorder = df[df["units_left"] < df["reorder_point"]].loc[:, "start_time"]
 
 if len(need_to_reorder) > 0:
     items = "\n".join(f"* {name}" for name in need_to_reorder)
@@ -248,7 +248,7 @@ st.altair_chart(
     )
     .encode(
         x="units_left",
-        y="item_name",
+        y="start_time",
     )
     # Layer 2: Chart showing the reorder point.
     + alt.Chart(df)
@@ -261,7 +261,7 @@ st.altair_chart(
     )
     .encode(
         x="reorder_point",
-        y="item_name",
+        y="start_time",
     ),
     use_container_width=True,
 )
@@ -283,8 +283,8 @@ st.altair_chart(
     alt.Chart(df)
     .mark_bar(orient="horizontal")
     .encode(
-        x="units_sold",
-        y=alt.Y("item_name").sort("-x"),
+        x="activity",
+        y=alt.Y("start_time").sort("-x"),
     ),
     use_container_width=True,
 )
