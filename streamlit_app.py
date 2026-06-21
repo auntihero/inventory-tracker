@@ -39,52 +39,49 @@ def initialize_data(conn):
                     """
                     CREATE TABLE IF NOT EXISTS inventory (
                     event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    activity TEXT
                     start_time TEXT,
                     event_duration INTEGER,
-                    activity TEXT,
-                    units_left INTEGER,
-                    cost_price REAL,
-                    reorder_point INTEGER,
-                    description TEXT)
+                    activity_date INTEGER,
                     """
     )
 
     cursor.execute(
         """
         INSERT INTO inventory
-            (start_time, event_duration, activity, units_left, cost_price, reorder_point, description)
+            (activity, start_time, event_duration, activity_date)
         VALUES
             -- Beverages
-            ('Bottled Water (500ml)', 1.50, 115, 15, 0.80, 16, 'Hydrating bottled water'),
-            ('Soda (355ml)', 2.00, 93, 8, 1.20, 10, 'Carbonated soft drink'),
-            ('Energy Drink (250ml)', 2.50, 12, 18, 1.50, 8, 'High-caffeine energy drink'),
-            ('Coffee (hot, large)', 2.75, 11, 14, 1.80, 5, 'Freshly brewed hot coffee'),
-            ('Juice (200ml)', 2.25, 11, 9, 1.30, 5, 'Fruit juice blend'),
+            ('Bottled Water (500ml)', 1.50, 115, 15),
+            ('Soda (355ml)', 2.00, 93, 8),
+            ('Energy Drink (250ml)', 2.50, 12, 18),
+            ('Coffee (hot, large)', 2.75, 11, 14),
+            ('Juice (200ml)', 2.25, 11, 9),
 
             -- Snacks
-            ('Potato Chips (small)', 2.00, 34, 16, 1.00, 10, 'Salted and crispy potato chips'),
-            ('Candy Bar', 1.50, 6, 19, 0.80, 15, 'Chocolate and candy bar'),
-            ('Granola Bar', 2.25, 3, 12, 1.30, 8, 'Healthy and nutritious granola bar'),
-            ('Cookies (pack of 6)', 2.50, 8, 8, 1.50, 5, 'Soft and chewy cookies'),
-            ('Fruit Snack Pack', 1.75, 5, 10, 1.00, 8, 'Assortment of dried fruits and nuts'),
+            ('Potato Chips (small)', 2.00, 34, 16),
+            ('Candy Bar', 1.50, 6, 19),
+            ('Granola Bar', 2.25, 3, 12),
+            ('Cookies (pack of 6)', 2.50, 8, 8),
+            ('Fruit Snack Pack', 1.75, 5, 10),
 
             -- Personal Care
-            ('Toothpaste', 3.50, 1, 9, 2.00, 5, 'Minty toothpaste for oral hygiene'),
-            ('Hand Sanitizer (small)', 2.00, 2, 13, 1.20, 8, 'Small sanitizer bottle for on-the-go'),
-            ('Pain Relievers (pack)', 5.00, 1, 5, 3.00, 3, 'Over-the-counter pain relief medication'),
-            ('Bandages (box)', 3.00, 0, 10, 2.00, 5, 'Box of adhesive bandages for minor cuts'),
-            ('Sunscreen (small)', 5.50, 6, 5, 3.50, 3, 'Small bottle of sunscreen for sun protection'),
+            ('Toothpaste', 3.50, 1, 9),
+            ('Hand Sanitizer (small)', 2.00, 2, 13),
+            ('Pain Relievers (pack)', 5.00, 1, 5),
+            ('Bandages (box)', 3.00, 0, 10),
+            ('Sunscreen (small)', 5.50, 6, 5),
 
             -- Household
-            ('Batteries (AA, pack of 4)', 4.00, 1, 5, 2.50, 3, 'Pack of 4 AA batteries'),
-            ('Light Bulbs (LED, 2-pack)', 6.00, 3, 3, 4.00, 2, 'Energy-efficient LED light bulbs'),
-            ('Trash Bags (small, 10-pack)', 3.00, 5, 10, 2.00, 5, 'Small trash bags for everyday use'),
-            ('Paper Towels (single roll)', 2.50, 3, 8, 1.50, 5, 'Single roll of paper towels'),
-            ('Multi-Surface Cleaner', 4.50, 2, 5, 3.00, 3, 'All-purpose cleaning spray'),
+            ('Batteries (AA, pack of 4)', 4.00, 1, 5),
+            ('Light Bulbs (LED, 2-pack)', 6.00, 3, 3),
+            ('Trash Bags (small, 10-pack)', 3.00, 5, 10),
+            ('Paper Towels (single roll)', 2.50, 3, 8),
+            ('Multi-Surface Cleaner', 4.50, 2, 5),
 
             -- Others
-            ('Lottery Tickets', 2.00, 17, 20, 1.50, 10, 'Assorted lottery tickets'),
-            ('Newspaper', 1.50, 22, 20, 1.00, 5, 'Daily newspaper')
+            ('Lottery Tickets', 2.00, 17, 20),
+            ('Newspaper', 1.50, 22, 20)
         """
     )
     conn.commit()
@@ -104,13 +101,10 @@ def load_data(conn):
         data,
         columns=[
             "event_id",
+            "activity"
             "start_time",
-            "event_duration",
-            "activity",
-            "units_left",
-            "cost_price",
-            "reorder_point",
-            "description",
+            "duration",
+            "activity_date"
         ],
     )
 
@@ -134,14 +128,11 @@ def update_data(conn, df, changes):
             """
             UPDATE inventory
             SET
+                activity = :activity,
                 start_time = :start_time,
                 event_duration = :event_duration,
-                activity = :activity,
-                units_left = :units_left,
-                cost_price = :cost_price,
-                reorder_point = :reorder_point,
-                description = :description
-            WHERE id = :id
+                activity_date = :activity_date,
+            WHERE event_id = :event_id
             """,
             rows,
         )
@@ -150,9 +141,9 @@ def update_data(conn, df, changes):
         cursor.executemany(
             """
             INSERT INTO inventory
-                (event_id, start_time, event_duration, activity, units_left, cost_price, reorder_point, description)
+                (event_id, activity, start_time, event_duration, activity_date)
             VALUES
-                (:event_id, :start_time, :event_duration, :activity, :units_left, :cost_price, :reorder_point, :description)
+                (:event_id, :activity, :start_time, :event_duration, :activity_date)
             """,
             (defaultdict(lambda: None, row) for row in changes["added_rows"]),
         )
@@ -173,7 +164,7 @@ def update_data(conn, df, changes):
 """
 # :shopping_bags: Test title
 
-**Welcome to Rupert's Corner Store's intentory tracker!**
+**Welcome to Rupert's activity tracker!**
 This page reads and writes directly from/to our inventory database.
 """
 
@@ -203,7 +194,6 @@ edited_df = st.data_editor(
     column_config={
         # Show dollar sign before price columns.
         "event_duration": st.column_config.NumberColumn(format="$%.2f"),
-        "cost_price": st.column_config.NumberColumn(format="$%.2f"),
     },
     key="inventory_table",
 )
