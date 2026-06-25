@@ -35,16 +35,71 @@ st.set_page_config(
 # Think of it like a list of records in a spreadsheet!
 
 cat_activities = [
-    (1, 'Sleeping', '2026-01-15 22:00', 480),
-    (2, 'Eating', '2026-01-16 08:00', 15),
-    (3, 'Purring', '2026-01-16 09:00', 45),
-    (4, 'Drinking', '2026-01-16 12:00', 5),
-    (5, 'Sleeping', '2026-01-16 13:00', 240),
-    (6, 'Playing', '2026-01-16 17:00', 30),
-    (7, 'Eating', '2026-01-16 18:00', 10),
-    (8, 'Purring', '2026-01-16 19:00', 60),
-    (9, 'Drinking', '2026-01-16 20:00', 3),
-    (10, 'Sleeping', '2026-01-16 21:00', 540),
+    (1, '2026-06-01', 'Monday', 'Sleeping', '22:00', 480),
+    (2, '2026-06-01', 'Monday', 'Eating', '08:00', 15),
+    (3, '2026-06-01', 'Monday', 'Purring', '09:00', 45),
+    (4, '2026-06-01', 'Monday', 'Drinking', '12:00', 5),
+    (5, '2026-06-01', 'Monday', 'Sleeping', '13:00', 240),
+    (6, '2026-06-01', 'Monday', 'Playing', '17:00', 30),
+    (7, '2026-06-01', 'Monday', 'Eating', '18:00', 10),
+    (8, '2026-06-01', 'Monday', 'Purring', '19:00', 60),
+    (9, '2026-06-01', 'Monday', 'Drinking', '20:00', 3),
+    (10, '2026-06-02', 'Tuesday', 'Sleeping', '21:00', 240),
+    (11, '2026-06-02', 'Tuesday', 'Sleeping', '22:00', 480),
+    (12, '2026-06-02', 'Tuesday', 'Eating', '08:00', 15),
+    (13, '2026-06-02', 'Tuesday', 'Purring', '09:00', 45),
+    (14, '2026-06-02', 'Tuesday', 'Drinking', '12:00', 5),
+    (15, '2026-06-02', 'Tuesday', 'Sleeping', '13:00', 240),
+    (16, '2026-06-02', 'Tuesday', 'Playing', '17:00', 30),
+    (17, '2026-06-02', 'Tuesday', 'Eating', '18:00', 10),
+    (18, '2026-06-02', 'Tuesday', 'Purring', '19:00', 60),
+    (19, '2026-06-02', 'Tuesday', 'Drinking', '20:00', 3),
+    (20, '2026-06-02', 'Tuesday', 'Sleeping', '21:00', 240),
+    (21, '2026-06-03', 'Wednesday', 'Eating', '08:00', 30),
+    (22, '2026-06-03', 'Wednesday', 'Purring', '09:00', 15),
+    (23, '2026-06-03', 'Wednesday', 'Drinking', '12:00', 55),
+    (24, '2026-06-03', 'Wednesday', 'Sleeping', '13:00', 100),
+    (25, '2026-06-03', 'Wednesday', 'Playing', '17:00', 150),
+    (26, '2026-06-03', 'Wednesday', 'Eating', '18:00', 60),
+    (27, '2026-06-03', 'Wednesday', 'Purring', '19:00', 60),
+    (28, '2026-06-03', 'Wednesday', 'Drinking', '20:00', 30),
+    (29, '2026-06-03', 'Wednesday', 'Sleeping', '21:00', 90),
+    (30, '2026-06-04', 'Thursday', 'Eating', '08:00', 30),
+    (31, '2026-06-04', 'Thursday', 'Purring', '09:00', 15),
+    (32, '2026-06-04', 'Thursday', 'Drinking', '12:00', 55),
+    (33, '2026-06-04', 'Thursday', 'Sleeping', '13:00', 100),
+    (34, '2026-06-04', 'Thursday', 'Playing', '17:00', 150),
+    (35, '2026-06-04', 'Thursday', 'Eating', '18:00', 60),
+    (36, '2026-06-04', 'Thursday', 'Purring', '19:00', 60),
+    (37, '2026-06-04', 'Thursday', 'Drinking', '20:00', 30),
+    (38, '2026-06-04', 'Thursday', 'Sleeping', '21:00', 90),
+    (39, '2026-06-05', 'Friday', 'Eating', '08:00', 30),
+    (40, '2026-06-05', 'Friday', 'Purring', '09:00', 15),
+    (41, '2026-06-05', 'Friday', 'Drinking', '12:00', 55),
+    (42, '2026-06-05', 'Friday', 'Sleeping', '13:00', 100),
+    (43, '2026-06-05', 'Friday', 'Playing', '17:00', 150),
+    (44, '2026-06-05', 'Friday', 'Eating', '18:00', 60),
+    (45, '2026-06-05', 'Friday', 'Purring', '19:00', 60),
+    (46, '2026-06-05', 'Friday', 'Drinking', '20:00', 30),
+    (47, '2026-06-05', 'Friday', 'Sleeping', '21:00', 90),
+    (48, '2026-06-06', 'Saturday', 'Eating', '08:00', 30),
+    (49, '2026-06-06', 'Saturday', 'Purring', '09:00', 15),
+    (50, '2026-06-06', 'Saturday', 'Drinking', '12:00', 55),
+    (51, '2026-06-06', 'Saturday', 'Sleeping', '13:00', 100),
+    (52, '2026-06-06', 'Saturday', 'Playing', '17:00', 150),
+    (53, '2026-06-06', 'Saturday', 'Eating', '18:00', 60),
+    (54, '2026-06-06', 'Saturday', 'Purring', '19:00', 60),
+    (55, '2026-06-06', 'Saturday', 'Drinking', '20:00', 30),
+    (56, '2026-06-06', 'Saturday', 'Sleeping', '21:00', 90),
+    (57, '2026-06-07', 'Sunday', 'Eating', '08:00', 30),
+    (58, '2026-06-07', 'Sunday', 'Purring', '09:00', 15),
+    (59, '2026-06-07', 'Sunday', 'Drinking', '12:00', 55),
+    (60, '2026-06-07', 'Sunday', 'Sleeping', '13:00', 100),
+    (61, '2026-06-07', 'Sunday', 'Playing', '17:00', 150),
+    (62, '2026-06-07', 'Sunday', 'Eating', '18:00', 60),
+    (63, '2026-06-07', 'Sunday', 'Purring', '19:00', 60),
+    (64, '2026-06-07', 'Sunday', 'Drinking', '20:00', 30),
+    (65, '2026-06-07', 'Sunday', 'Sleeping', '21:00', 90),
 ]
 
 # ============================================================================
@@ -57,6 +112,8 @@ df = pd.DataFrame(
     cat_activities,  # Our data from above
     columns=[        # Column names for our table
         "event_id",
+        "event_date",
+        "event_weekday_name",
         "activity",
         "start_time",
         "event_duration",
@@ -119,26 +176,42 @@ with col3:
 
 st.subheader("⏱️ Activity Duration Chart")
 
-# Create a simple bar chart
-# .mark_bar() means we want a bar chart
-# .encode() tells it which columns to use for what
-chart = alt.Chart(df).mark_bar().encode(
-    x='event_duration',      # X-axis: duration of activity
-    y='activity',             # Y-axis: name of activity
-    color='activity',         # Color each activity differently
-).properties(
-    width=600,
-    height=400,
-    title="How long did each activity last?"
+# Try making a slider to filter the chart by day name
+day_filter = st.select_slider(
+    "Filter by Day of the Week",
+    options=df['event_weekday_name'].unique().tolist(),
+    value=df[['event_weekday_name']].iloc[0, 0]
 )
 
-# Display the chart
-st.altair_chart(chart, use_container_width=True)
+# Create a chart to show how the cat spent their day like a gant chart
 
+st.bar_chart(
+    df, 
+    x='start_time', 
+    y='activity', 
+    use_container_width=True,
+    x_label='Day',
+    y_label='Activity',
+    color='activity',
+    stack=True
+    )
 # ============================================================================
 # STEP 7: CREATE ANOTHER CHART - Activity Frequency
 # ============================================================================
 # This chart shows how many times each activity happened
+st.subheader("Weekly Activity Frequency")
+# Make a bar chart which shows the total duration of each activity per weekday
+st.bar_chart(
+    df,
+    x='event_weekday_name',
+    y='event_duration',
+    x_label='Weekday',
+    y_label='Total Duration (mins)',
+    color='activity',
+    sort='event_date',
+    horizontal=True
+)
+
 
 st.subheader("🔄 Activity Frequency")
 
